@@ -1,0 +1,33 @@
+# Full TagSkip stack: FastAPI backend + nginx-served frontend.
+#
+#   docker compose up --build
+#
+# Then open http://localhost:8080
+#
+# nginx proxies /api to the backend, so the browser only ever talks to one
+# origin and no CORS configuration is required.
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    image: tagskip-api:local
+    environment:
+      ALLOWED_ORIGINS: "*"
+      MAX_UPLOAD_BYTES: "20971520"
+    expose:
+      - "8000"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: tagskip-web:local
+    ports:
+      - "8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped

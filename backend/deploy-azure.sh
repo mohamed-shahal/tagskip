@@ -7,11 +7,11 @@
 #
 # Usage:
 #   ./backend/deploy-azure.sh
-#   LOCATION=malaysiawest ALLOWED_ORIGINS=https://tagskip.example.com ./backend/deploy-azure.sh
+#   LOCATION=southindia ALLOWED_ORIGINS=https://tagskip.example.com ./backend/deploy-azure.sh
 #
 # Overridable environment variables:
 #   RESOURCE_GROUP   default: tagskip-rg
-#   LOCATION         default: uaenorth        (closest allowed region to India)
+#   LOCATION         default: centralindia
 #   ACR_NAME         default: tagskipacr   (globally unique, alphanumeric only)
 #   APP_NAME         default: tagskip-api
 #   ENV_NAME         default: tagskip-env
@@ -24,7 +24,7 @@
 set -euo pipefail
 
 RESOURCE_GROUP="${RESOURCE_GROUP:-tagskip-rg}"
-LOCATION="${LOCATION:-uaenorth}"
+LOCATION="${LOCATION:-centralindia}"
 ACR_NAME="${ACR_NAME:-tagskipacr}"
 APP_NAME="${APP_NAME:-tagskip-api}"
 ENV_NAME="${ENV_NAME:-tagskip-env}"

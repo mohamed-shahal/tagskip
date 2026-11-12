@@ -1,25 +1,29 @@
-# Build context is the repository root; only backend/ is needed.
+# Build context is the repository root; both the backend and frontend images
+# build from here.
+
+# Dependencies and build output
 node_modules
 dist
+
+# Python virtualenvs and caches
 .venv
+.venv*
+.pytest_cache
+**/__pycache__
+**/*.pyc
+
+# VCS
 .git
 .gitignore
-.pytest_cache
+
+# Local caches and test artifacts
 .profile-cache
 .shots
 test-results
-e2e
-src
-public
-index.html
-package.json
-package-lock.json
-vite.config.ts
-tsconfig.json
-eslint.config.js
-playwright.config.ts
-**/__pycache__
-**/*.pyc
+playwright-report
+coverage
+
+# Docs and OS metadata
+**/*.md
 **/.DS_Store
 .DS_Store
-*.md

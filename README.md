@@ -36,6 +36,24 @@ npm run dev
 
 Open the local URL printed by Vite. During development, Vite proxies `/api` to `http://127.0.0.1:8000`.
 
+## Run with Docker
+
+The whole stack — frontend and API — runs with one command:
+
+```bash
+docker compose up --build
+```
+
+Open <http://localhost:8080>. nginx serves the built frontend and proxies `/api` to the
+backend container, so the browser only talks to one origin and no CORS setup is needed.
+
+| Service | Image | Port |
+| --- | --- | --- |
+| `frontend` | `tagskip-web:local` (nginx) | `8080` on the host |
+| `backend` | `tagskip-api:local` (FastAPI) | internal `8000` |
+
+Stop with `docker compose down`; rebuild after code changes with `docker compose up --build`.
+
 ## How it works
 
 The browser checks the image type and dimensions, then sends the original file as `multipart/form-data` in a `file` field:
@@ -77,9 +95,11 @@ The browser has its own configurable upload limit in the interface. The API limi
 | `npm run test:backend` | Run the backend pytest suite when `backend/tests` is present and pytest is installed. |
 | `npm run test:e2e` | Run Playwright tests; start the API separately first. |
 
-## Deploying the API
+## Deploying
 
 The backend includes a Dockerfile and an Azure Container Apps deployment script. See [backend/DEPLOY.md](backend/DEPLOY.md) for local container instructions, Azure setup, and deployment options.
+
+The root `Dockerfile` builds the frontend and serves it with nginx; `docker-compose.yml` runs it alongside the API.
 
 ## Contributing
 

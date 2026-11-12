@@ -4,6 +4,7 @@ dist/
 
 # Local runtime and test artifacts
 .venv/
+.venv*/
 .pytest_cache/
 __pycache__/
 *.py[cod]

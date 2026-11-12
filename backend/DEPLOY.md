@@ -31,7 +31,7 @@ Override any of these with environment variables:
 | Variable | Default | Purpose |
 | --- | --- | --- |
 | `RESOURCE_GROUP` | `tagskip-rg` | Resource group name. |
-| `LOCATION` | `uaenorth` | Azure region. This subscription is restricted by the `sys.regionrestriction` policy to `uaenorth`, `malaysiawest`, `eastasia`, `indonesiacentral`, `polandcentral`. `uaenorth` (Dubai) is closest to India. |
+| `LOCATION` | `centralindia` | Azure region. `southindia` is a good fallback. Some subscriptions are region-locked by policy — see Troubleshooting. |
 | `ACR_NAME` | `tagskipacr` | Registry name — must be globally unique, alphanumeric. Change it if the default is taken. |
 | `APP_NAME` | `tagskip-api` | Container app name. |
 | `ENV_NAME` | `tagskip-env` | Container Apps environment name. |
@@ -78,6 +78,28 @@ az containerapp update -n tagskip-api -g tagskip-rg \
 - The container runs as a non-root user and exposes `GET /healthz` for probes.
 - Each deploy pushes a new timestamped image tag, so you can roll back with
   `az containerapp update --image <acr>.azurecr.io/tagskip-api:<older-tag>`.
+
+## Troubleshooting
+
+### `RequestDisallowedByAzure` / `sys.regionrestriction`
+
+Some subscriptions (free, student, sponsored) are locked to a fixed set of regions by the
+`sys.regionrestriction` policy. Find the allowed list and pass one of them:
+
+```bash
+az policy assignment show --name sys.regionrestriction \
+  --query parameters.listOfAllowedLocations.value -o tsv
+
+LOCATION=<allowed-region> ./backend/deploy-azure.sh
+```
+
+### `ACR name ... already in use`
+
+Registry names are globally unique. Pick another:
+
+```bash
+ACR_NAME=tagskipacr2 ./backend/deploy-azure.sh
+```
 
 ## Alternative: Azure App Service (Linux container)
 
