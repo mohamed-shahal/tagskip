@@ -1,0 +1,25 @@
+# Build context is the repository root; only backend/ is needed.
+node_modules
+dist
+.venv
+.git
+.gitignore
+.pytest_cache
+.profile-cache
+.shots
+test-results
+e2e
+src
+public
+index.html
+package.json
+package-lock.json
+vite.config.ts
+tsconfig.json
+eslint.config.js
+playwright.config.ts
+**/__pycache__
+**/*.pyc
+**/.DS_Store
+.DS_Store
+*.md
